@@ -1,0 +1,1033 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Misrak Consultancy</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    
+    <link rel="stylesheet" href="/style.css" type="text/css" media="all" />
+  </head>
+  <body>
+  <% if (error_msg != "") { %>
+    <div class="alert alert-danger"><%= error_msg %></div>
+  <% } %>
+  <% if (success_msg != "") { %>
+    <div class="alert alert-success"><%= success_msg %></div>
+  <% } %>
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky-top">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+            <img
+              src="/img/logo.png?height=50&width=50"
+              alt="Misrak Consultancy Logo"
+              width="50"
+              height="50"
+              class="d-inline-block align-text-top me-2"
+            />
+            Misrak Consultancy
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#home">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#about">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#services">Services</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#applicants">Applicants</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#contact">Contact</a>
+              </li>
+                <% if(!isAuthenticated) { %>
+                  <li class="nav-item">
+                    <a
+                      class="nav-link btn btn-outline-primary ms-2"
+                      href="#"
+                      data-bs-toggle="modal"
+                      data-bs-target="#loginModal"
+                      >Login</a
+                    >
+                  </li>
+                <% } else { %>
+                  <li class="nav-item"> 
+                    <form class="nav-link btn btn-outline-primary ms-2" method="post" action="/auth/logout"> <input type="submit" value="logout" class="btn btn-danger"></form>
+                <% } %>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section text-white">
+      <div class="container text-center">
+        <h1 class="mb-4">Welcome to Misrak Consultancy</h1>
+        <p class="lead mb-5">
+          We provide expert visa and travel application services to help you
+          reach your destination.
+        </p>
+        <a href="#services" class="btn btn-primary btn-lg">Learn More</a>
+      </div>
+    </section>
+
+    <!-- Applicants Section -->
+    <section id="applicants" class="py-3 bg-light">
+      <div class="container">
+        <h2 class="section-title text-center">Applicant Status</h2>
+
+        <!-- Accepted Applicants -->
+        <div class="mb-5">
+          <h2 class="mb-4">
+            <button
+              class="btn btn-link text-decoration-none text-success p-0 collapseBtn"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#acceptedApplicants"
+              aria-expanded="true"
+              aria-controls="acceptedApplicants"
+            >
+              Accepted Applicants <i class="fas fa-chevron-down ms-2"></i>
+            </button>
+          </h3>
+          <div class="collapse show" id="acceptedApplicants">
+            <div class="row g-4" id="acceptedApplicantsList"></div>
+          </div>
+        </div>
+
+        <!-- Pending Applicants -->
+        <div class="mb-5">
+          <h3 class="mb-4">
+            <button
+              class="btn btn-link text-decoration-none text-secondary p-0 collapseBtn"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#pendingApplicants"
+              aria-expanded="true"
+              aria-controls="pendingApplicants"
+            >
+              Pending Applicants <i class="fas fa-chevron-down ms-2"></i>
+            </button>
+          </h3>
+          <div class="collapse show" id="pendingApplicants">
+            <div class="row g-4" id="pendingApplicantsList"></div>
+          </div>
+        </div>
+
+        <!-- Rejected Applicants -->
+        <div>
+          <h3 class="mb-4">
+            <button
+              class="btn btn-link text-decoration-none text-danger p-0 collapseBtn"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#rejectedApplicants"
+              aria-expanded="true"
+              aria-controls="rejectedApplicants"
+            >
+              Rejected Applicants <i class="fas fa-chevron-down ms-2"></i>
+            </button>
+          </h3>
+          <div class="collapse show" id="rejectedApplicants">
+            <div class="row g-4" id="rejectedApplicantsList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-5 bg-white">
+      <div class="container">
+        <h2 class="section-title text-center">About Misrak Consultancy</h2>
+        <div class="row align-items-center">
+          <div class="col-lg-6 mb-4 mb-lg-0">
+            <div class="about-image shadow-lg">
+              <img
+                src="/img/embassy.jpeg?height=400&width=600"
+                alt="About Misrak Consultancy"
+                class="img-fluid"
+              />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <h3 class="mb-4">Our Mission</h3>
+            <p class="lead mb-4">
+              At Misrak Consultancy, we simplify the complex world of visa
+              applications and travel planning. Our mission is to provide expert
+              guidance and support to individuals and families seeking to
+              explore new horizons.
+            </p>
+            <h4 class="mb-3">Our Expertise</h4>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <i class="fas fa-check-circle text-secondary me-2"></i> Over 10
+                years of experience in visa consultancy
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-check-circle text-secondary me-2"></i>
+                Specialized knowledge of immigration laws
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-check-circle text-secondary me-2"></i>
+                Personalized approach to each client's unique situation
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-check-circle text-secondary me-2"></i> High
+                success rate in visa approvals
+              </li>
+            </ul>
+            <button class="btn btn-primary btn-md text-center mt-2">
+              Learn More About Us
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+<!-- slideshow -->
+  <div class="image-stack-container">
+  <div class="image-stack">
+    <img src="/img/embassy2.jpeg?height=300&width=400" alt="Embassy 2" class="stack-image">
+    <img src="/img/embassy3.jpeg?height=300&width=400" alt="Embassy 3" class="stack-image">
+    <img src="/img/embassy4.jpeg?height=300&width=400" alt="Embassy 4" class="stack-image">
+  </div>
+  <button class="stack-button prev" aria-label="Previous image">&lt;</button>
+  <button class="stack-button next" aria-label="Next image">&gt;</button>
+</div>
+
+
+
+    <!-- Services Section -->
+    <section id="services" class="py-5 bg-light">
+      <div class="container">
+        <h2 class="section-title text-center">Our Services</h2>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-3">
+            <div class="card h-100 service-card" data-service="visa">
+              <div class="card-body text-center">
+                <div class="service-icon">
+                  <i class="fas fa-passport"></i>
+                </div>
+                <h3 class="card-title">Visa Application</h3>
+                <p class="card-text">
+                  Expert assistance with visa applications for various
+                  countries.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card h-100 service-card" data-service="travel">
+              <div class="card-body text-center">
+                <div class="service-icon">
+                  <i class="fas fa-plane-departure"></i>
+                </div>
+                <h3 class="card-title">Travel Planning</h3>
+                <p class="card-text">
+                  Comprehensive travel planning and itinerary creation.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card h-100 service-card" data-service="translation">
+              <div class="card-body text-center">
+                <div class="service-icon">
+                  <i class="fas fa-language"></i>
+                </div>
+                <h3 class="card-title">Document Translation</h3>
+                <p class="card-text">
+                  Professional translation of important travel documents.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card h-100 service-card" data-service="immigration">
+              <div class="card-body text-center">
+                <div class="service-icon">
+                  <i class="fas fa-globe"></i>
+                </div>
+                <h3 class="card-title">Immigration Consulting</h3>
+                <p class="card-text">
+                  Guidance on immigration processes and requirements.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="serviceDetails" class="mt-5 text-center d-none">
+          <h3 id="serviceTitle" class="mb-4"></h3>
+          <p id="serviceDescription" class="lead"></p>
+          <button class="btn btn-outline-primary mt-3">Learn More</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 bg-white">
+      <div class="container">
+        <h2 class="section-title text-center">Contact Us</h2>
+        <div class="row justify-content-center">
+          <div class="col-md-8 text-center">
+            <p class="lead mb-5">
+              We're here to help you with all your visa and travel needs. Get in
+              touch with us today!
+            </p>
+            <div class="mb-4">
+              <i class="fas fa-envelope me-2 text-primary"></i>
+              <a
+                href="mailto:info@misrakconsultancy.com"
+                class="text-decoration-none"
+                >info@misrakconsultancy.com</a
+              >
+            </div>
+            <div class="mb-4">
+              <i class="fas fa-phone me-2 text-primary"></i>
+              <a href="tel:+2519696969" class="text-decoration-none"
+                >+1 (234) 567-890</a
+              >
+            </div>
+            <div>
+              <i class="fas fa-map-marker-alt me-2 text-primary"></i>
+              <span>261 Consultancy Street, City, Canada</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4 text-white">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-3 mb-md-0">
+            <h5>Misrak Consultancy</h5>
+            <p>
+              Providing expert visa and travel application services since 2023.
+            </p>
+          </div>
+          <div class="col-md-4 mb-3 mb-md-0">
+            <h5>Quick Links</h5>
+            <ul class="list-unstyled">
+              <li><a href="#home" class="text-white">Home</a></li>
+              <li><a href="#about" class="text-white">About Us</a></li>
+              <li><a href="#services" class="text-white">Services</a></li>
+              <li><a href="#applicants" class="text-white">Applicants</a></li>
+              <li><a href="#contact" class="text-white">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5>Connect With Us</h5>
+            <div class="d-flex">
+              <a href="#" class="text-white me-3"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="text-white me-3"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="text-white me-3"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="text-white"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <hr class="my-4" />
+        <div class="text-center">
+          <p>&copy; 2023 Misrak Consultancy. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+<% if(isAuthenticated) { %>
+    <!-- Floating Action Buttons -->
+    <div class="floating-buttons">
+      <button
+        class="floating-button btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#addApplicantModal"
+      >
+        <i class="fas fa-plus"></i>
+      </button>
+      <button
+        class="floating-button btn btn-secondary"
+        data-bs-toggle="modal"
+        data-bs-target="#editApplicantModal"
+      >
+        <i class="fas fa-edit"></i>
+      </button>
+    </div>
+<% } %>
+
+
+
+    <!-- Login Modal -->
+    <div
+      class="modal fade"
+      id="loginModal"
+      tabindex="-1"
+      aria-labelledby="loginModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Login</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="/auth/login">
+              <div class="mb-3">
+                <label for="loginEmail" class="form-label">Username </label>
+                <input
+                  name="username"
+                  type="text"
+                  class="form-control"
+                  id="loginEmail"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="loginPassword" class="form-label">Password</label>
+                <input
+                  name="password"
+                  type="password"
+                  class="form-control"
+                  id="loginPassword"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Applicant Modal -->
+    <div
+      class="modal fade"
+      id="addApplicantModal"
+      tabindex="-1"
+      aria-labelledby="addApplicantModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addApplicantModalLabel">
+              Add New Applicant
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="addApplicantForm" enctype="multipart/form-data">
+              <div class="mb-3">
+                <label for="newApplicantName" class="form-label">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  class="form-control"
+                  id="newApplicantName"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="newApplicantAge" class="form-label">Age</label>
+                <input
+                  type="number"
+                  name="age"
+                  class="form-control"
+                  id="newApplicantAge"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="newApplicantPhone" class="form-label">Phone</label>
+                <input
+                  type="text"
+                  name="phone"
+                  class="form-control"
+                  id="newApplicantPhone"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="newApplicantPassport" class="form-label"
+                  >Passport Number</label
+                >
+                <input
+                  type="text"
+                  name="passportNumber"
+                  class="form-control"
+                  id="newApplicantPassport"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="newApplicantImage" class="form-label"
+                  >Image</label
+                >
+                <input
+                  type="file"
+                  name="photo"
+                  class="form-control"
+                  id="newApplicantImage"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="newApplicantStatus" class="form-label"
+                  >Status</label
+                >
+                <select name="status" class="form-select" id="newApplicantStatus" required>
+                  <option value="accepted">Accepted</option>
+                  <option value="pending">Pending</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-success" id="add-applicant-btn">
+                Add Applicant
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Applicant Modal -->
+    <div
+      class="modal fade"
+      id="editApplicantModal"
+      tabindex="-1"
+      aria-labelledby="editApplicantModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editApplicantModalLabel">
+              Edit Applicant
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="editApplicantForm">
+              <div class="mb-3">
+                <label for="editApplicantSelect" class="form-label"
+                  >Select Applicant</label
+                >
+                <select class="form-select" id="editApplicantSelect" required>
+                  <!-- Options will be populated dynamically -->
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="editApplicantName" class="form-label">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editApplicantName"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="editApplicantAge" class="form-label">Age</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="editApplicantAge"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="editApplicantPhone" class="form-label">Phone</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editApplicantPhone"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="editApplicantPassport" class="form-label"
+                  >Passport Number</label
+                >
+                <input
+                  type="text"
+                  name="passportNumber"
+                  class="form-control"
+                  id="editApplicantPassport"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="editApplicantStatus" class="form-label"
+                  >Status</label
+                >
+                <select class="form-select" id="editApplicantStatus" required>
+                  <option value="accepted">Accepted</option>
+                  <option value="pending">Pending</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+              <div class="d-flex justify-content-between mt-2">
+                <button type="submit" class="btn btn-lg btn-success" id="editApplicantBtn">
+                  Update Applicant
+                </button>
+                <button
+                  type="button"
+                  id="deleteApplicantBtn"
+                  class="btn btn-lg btn-danger"
+                >
+                  Delete Applicant
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", async function () {
+        // slideshow
+        
+    const stack = document.querySelector('.image-stack');
+    const images = document.querySelectorAll('.stack-image');
+    const prevBtn = document.querySelector('.stack-button.prev');
+    const nextBtn = document.querySelector('.stack-button.next');
+    let currentIndex = 0;
+    let intervalId;
+
+    function updateStack() {
+      images.forEach((img, index) => {
+        if (index === currentIndex) {
+          img.style.opacity = '1';
+          img.style.transform = 'translateY(0) scale(1)';
+          img.style.zIndex = '3';
+        } else if (index < currentIndex) {
+          img.style.opacity = '0';
+          img.style.transform = 'translateY(-100%) scale(0.8)';
+          img.style.zIndex = '1';
+        } else {
+          img.style.opacity = '0.5';
+          img.style.transform = 'translateY(10%) scale(0.9)';
+          img.style.zIndex = '2';
+        }
+      });
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateStack();
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateStack();
+    }
+
+    function startAutoSwitch() {
+      intervalId = setInterval(nextImage, 2500);
+    }
+
+    function stopAutoSwitch() {
+      clearInterval(intervalId);
+    }
+
+    prevBtn.addEventListener('click', () => {
+      prevImage();
+      stopAutoSwitch();
+      startAutoSwitch();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      nextImage();
+      stopAutoSwitch();
+      startAutoSwitch();
+    });
+
+    stack.addEventListener('mouseenter', stopAutoSwitch);
+    stack.addEventListener('mouseleave', startAutoSwitch);
+
+    updateStack();
+    startAutoSwitch();
+
+        
+        // Services Section Interactivity
+        const serviceCards = document.querySelectorAll(".service-card");
+        const serviceDetails = document.getElementById("serviceDetails");
+        const serviceTitle = document.getElementById("serviceTitle");
+        const serviceDescription =
+          document.getElementById("serviceDescription");
+
+        const services = {
+          visa: {
+            title: "Visa Application Services",
+            description:
+              "Our expert team guides you through every step of the visa application process, ensuring accuracy and improving your chances of approval."
+          },
+          travel: {
+            title: "Travel Planning Services",
+            description:
+              "Let us create a personalized travel itinerary that matches your preferences, budget, and timeline for an unforgettable journey."
+          },
+          translation: {
+            title: "Document Translation Services",
+            description:
+              "We provide professional and certified translations for all your important travel and immigration documents."
+          },
+          immigration: {
+            title: "Immigration Consulting Services",
+            description:
+              "Navigate complex immigration processes with our experienced consultants who stay up-to-date with the latest laws and regulations."
+          }
+        };
+
+        serviceCards.forEach(card => {
+          card.addEventListener("click", function () {
+            const service = this.dataset.service;
+            serviceCards.forEach(c => c.classList.remove("active"));
+            this.classList.add("active");
+            serviceTitle.textContent = services[service].title;
+            serviceDescription.textContent = services[service].description;
+            serviceDetails.classList.remove("d-none");
+          });
+        });
+
+        // Applicants Section
+        const applicantss = [
+          {
+            id: 1,
+            name: "John Doe",
+            age: 30,
+            phone: "+1234567890",
+            passport: "AB1234567",
+            status: "accepted",
+            image: "/img/man.jpeg?height=100&width=100"
+          },
+          {
+            id: 2,
+            name: "Jane Smith",
+            age: 28,
+            phone: "+1987654321",
+            passport: "CD7654321",
+            status: "accepted",
+            image: "/img/man2.jpeg?height=100&width=100"
+          },
+          {
+            id: 3,
+            name: "Bob Johnson",
+            age: 35,
+            phone: "+1122334455",
+            passport: "EF1122334",
+            status: "rejected",
+            image: "/img/man3.jpeg?height=100&width=100"
+          },
+          {
+            id: 4,
+            name: "Alice Brown",
+            age: 26,
+            phone: "+1555666777",
+            passport: "GH5556667",
+            status: "pending",
+            image: "/img/man2.jpeg?height=100&width=100"
+          },
+          {
+            id: 5,
+            name: "Charlie Davis",
+            age: 32,
+            phone: "+1999000111",
+            passport: "IJ9990001",
+            status: "rejected",
+            image: "/img/man3.jpeg?height=100&width=100"
+          },
+          {
+            id: 6,
+            name: "Eva Wilson",
+            age: 29,
+            phone: "+1444333222",
+            passport: "KL4443332",
+            status: "pending",
+            image: "/img/man3.jpeg?height=100&width=100"
+          }
+        ];
+        let applicants = await JSON.parse('<%-JSON.stringify(clients)%>')
+        const acceptedApplicantsList = document.getElementById(
+          "acceptedApplicantsList"
+        );
+        const pendingApplicantsList = document.getElementById(
+          "pendingApplicantsList"
+        );
+        const rejectedApplicantsList = document.getElementById(
+          "rejectedApplicantsList"
+        );
+
+       function renderApplicants() {
+    acceptedApplicantsList.innerHTML = '';
+    pendingApplicantsList.innerHTML = '';
+    rejectedApplicantsList.innerHTML = '';
+
+    applicants.forEach((applicant, index) => {
+        const applicantCard = `
+            <div class="col-md-6 mb-3">
+                <div class="card applicant-card h-100" onclick="toggleApplicantDetails(${index})">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <img src="${applicant.photo}" alt="${applicant.name}" class="rounded-circle me-3 cardImg" width="65" height="65">
+                                <div>
+                                    <h5 class="card-title mb-0">${applicant.name}</h5>
+                                    <p class="card-text text-${applicant.status === 'accepted' ? 'success' : applicant.status === 'pending' ? 'secondary' : 'danger'} mb-0">
+                                        ${applicant.status.charAt(0).toUpperCase() + applicant.status.slice(1)}
+                                    </p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down chevronMan" id="chevron${index}"></i>
+                        </div>
+                        <div id="applicantDetails${index}" class="applicant-details">
+                            <p><strong>Age:</strong> ${applicant.age}</p>
+                            <p><strong>Phone:</strong> ${applicant.phone}</p>
+                            <p><strong>Passport:</strong> ${applicant.passportNumber}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        if (applicant.status === 'accepted') {
+            acceptedApplicantsList.innerHTML += applicantCard;
+        } else if (applicant.status === 'pending') {
+            pendingApplicantsList.innerHTML += applicantCard;
+        } else {
+            rejectedApplicantsList.innerHTML += applicantCard;
+        }
+    });
+
+    populateEditApplicantSelect();
+}
+
+window.toggleApplicantDetails = function(id) {
+    const cardElement = document.querySelector(`.applicant-card:has(#applicantDetails${id})`);
+    const detailsElement = document.getElementById(`applicantDetails${id}`);
+    const chevronElement = document.getElementById(`chevron${id}`);
+    
+    cardElement.classList.toggle('active');
+    detailsElement.classList.toggle('show');
+    chevronElement.classList.toggle('fa-chevron-up');
+    chevronElement.classList.toggle('fa-chevron-down');
+}
+
+  
+
+        renderApplicants();
+
+        // Add new applicant
+        const addApplicantForm = document.getElementById("addApplicantForm");
+        addApplicantForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          
+        const submitBtn = document.getElementById("add-applicant-btn");
+        submitBtn.innerText = "Adding Applicant"
+        submitBtn.disabled = true
+          const newApplicant = new FormData(addApplicantForm)
+        
+
+          // Send POST request to backend
+          fetch("/clients", {
+            method: "POST",
+            body: newApplicant
+          })
+            .then(response => response.json())
+            .then(data => {
+              applicants.push(data);
+              renderApplicants();
+              bootstrap.Modal.getInstance(
+                document.getElementById("addApplicantModal")
+              ).hide();
+              addApplicantForm.reset();
+              submitBtn.disabled = false
+              submitBtn.innerText = "Add Applicant"
+            })
+            .catch(error => {
+              console.error("Error:", error);
+              alert("Failed to add applicant. Please try again.");
+            });
+        });
+
+        // Populate edit applicant select
+        function populateEditApplicantSelect() {
+          const editApplicantSelect = document.getElementById(
+            "editApplicantSelect"
+          );
+          editApplicantSelect.innerHTML =
+            '<option value="">Select an applicant</option>';
+          applicants.forEach(applicant => {
+            editApplicantSelect.innerHTML += `<option value="${applicant._id}">${applicant.name}</option>`;
+          });
+        }
+const editBtn = document.getElementById("editApplicantBtn")
+        const deleteBtn = document.getElementById("deleteApplicantBtn")
+        // Edit applicant
+        const editApplicantForm = document.getElementById("editApplicantForm");
+        const editApplicantSelect = document.getElementById(
+          "editApplicantSelect"
+        );
+        const deleteApplicantBtn =
+          document.getElementById("deleteApplicantBtn");
+
+        editApplicantSelect.addEventListener("change", function () {
+          
+          const selectedApplicant = applicants.find(
+            
+            a =>  a._id === this.value
+          );
+          if (selectedApplicant) {
+            document.getElementById("editApplicantName").value =
+              selectedApplicant.name;
+            document.getElementById("editApplicantAge").value =
+              selectedApplicant.age;
+            document.getElementById("editApplicantPhone").value =
+              selectedApplicant.phone;
+            document.getElementById("editApplicantPassport").value =
+              selectedApplicant.passportNumber;
+            document.getElementById("editApplicantStatus").value =
+              selectedApplicant.status;
+            deleteApplicantBtn.disabled = false;
+          } else {
+            deleteApplicantBtn.disabled = true;
+          }
+        });
+
+        editApplicantForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          
+          editBtn.innerText = "Updating..."
+          editBtn.disabled = true
+          deleteBtn.disabled = true
+          const selectedId = editApplicantSelect.value;
+          const updatedApplicant = {
+            id: selectedId,
+            name: document.getElementById("editApplicantName").value,
+            age: parseInt(document.getElementById("editApplicantAge").value),
+            phone: document.getElementById("editApplicantPhone").value,
+            passportNumber: document.getElementById("editApplicantPassport").value,
+            status: document.getElementById("editApplicantStatus").value
+          };
+
+          // Send PUT request to backend
+          fetch(`/clients/${selectedId}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedApplicant)
+          })
+            .then(response => response.json())
+            .then(data => {
+              const applicantIndex = applicants.findIndex(
+                a => a._id === selectedId
+              );
+              if (applicantIndex !== -1) {
+                applicants[applicantIndex] = data;
+                renderApplicants();
+                bootstrap.Modal.getInstance(
+                  document.getElementById("editApplicantModal")
+                ).hide();
+                editApplicantForm.reset();
+                editBtn.innerText = "Update Applicant"
+                editBtn.disabled = false
+                deleteBtn.disabled = false
+              }
+            })
+            .catch(error => {
+              console.error("Error:", error);
+              alert("Failed to update applicant. Please try again.");
+            });
+        });
+        
+        // Delete applicant
+        deleteApplicantBtn.addEventListener("click", function () {
+          
+          const selectedId = editApplicantSelect.value;
+          if (confirm("Are you sure you want to delete this applicant?")) {
+            deleteBtn.innerText = "Deleting..."
+            deleteBtn.disabled = true
+            editBtn.disabled = true
+            // Send DELETE request to backend
+            fetch(`/clients/${selectedId}`, {
+              method: "DELETE"
+            })
+              .then(response => {
+                console.log(response.ok)
+                if (response.ok) {
+                  applicants = applicants.filter(a => a._id !== selectedId);
+                  renderApplicants();
+                  
+                  bootstrap.Modal.getInstance(
+                    document.getElementById("editApplicantModal")
+                  ).hide();
+                  editApplicantForm.reset();
+                  deleteBtn.innerText = "Delete Applicant"
+                  deleteBtn.disabled = false
+                  editBtn.disabled = false
+                } else {
+                  throw new Error("Failed to delete applicant");
+                }
+              })
+              .catch(error => {
+                console.error("Error:", error);
+                alert("Failed to delete applicant. Please try again.");
+              });
+          }
+        });
+
+        // Initial render
+        renderApplicants();
+      });
+    </script>
+  </body>
+</html>
