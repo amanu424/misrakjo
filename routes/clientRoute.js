@@ -1,7 +1,7 @@
 const express = require('express');
 const clientController = require('../controllers/clientController');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const upload = require('../middleware/multer.js');
 const isAuthenticated = require('../middleware/authMiddlware.js'); // Import session middleware
 
 const router = express.Router();
