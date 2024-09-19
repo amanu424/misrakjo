@@ -24,7 +24,7 @@ app.use(
   session({
     secret: process.env.S_SECRET,
     cookie: { maxAge: 1000 * 60 * 60 * 48 },
-    store: MongoStore.create({ mongoUrl: process.env.DB_STRING,}),
+    store: MongoStore.create({ mongoUrl: process.env.DB_STRING, ttl: 48 * 60 * 60 }),
     resave: true,
     saveUninitialized: true,
     //store: new MemoryStore({ checkPeriod: 86400000 }),
@@ -52,7 +52,7 @@ app.use('/', clientRoutes);
 app.use('/auth', authRoutes);
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
