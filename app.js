@@ -7,6 +7,7 @@ const clientRoutes = require('./routes/clientRoute');
 const authRoutes = require('./routes/authRoute');
 const session = require('express-session');
 const isAuthenticated = require('./middleware/authMiddlware.js'); // Import session middleware
+const MongoStore = require('connect-mongo');
 
 dotenv.config();
 connectDB();
@@ -19,12 +20,16 @@ app.use(session({
     saveUninitialized: true
 }));
 // Set up session middleware
-app.use(session({
-  secret: 'yourSecretKey',
-  resave: false,
-  saveUninitialized: true
-}));
-
+app.use(
+  session({
+    secret: process.env.S_SECRET,
+    maxAge: 1000 * 60 * 60 * 48,
+    store: MongoStore.create({ mongoUrl: process.env.DB_STRING, }),
+    resave: false,
+    saveUninitialized: true,
+    //store: new MemoryStore({ checkPeriod: 86400000 }),
+  })
+);
 // Set up flash middleware
 app.use(flash());
 
