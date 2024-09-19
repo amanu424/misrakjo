@@ -7,6 +7,7 @@ const clientRoutes = require('./routes/clientRoute');
 const authRoutes = require('./routes/authRoute');
 const session = require('express-session');
 const isAuthenticated = require('./middleware/authMiddlware.js'); // Import session middleware
+const MemoryStore = require("memorystore")(session);
 const MongoStore = require('connect-mongo');
 
 dotenv.config();
