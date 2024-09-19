@@ -15,11 +15,6 @@ connectDB();
 
 const app = express();
 
-app.use(session({
-    secret: process.env.S_SECRET, // Replace with a strong secret
-    resave: false,
-    saveUninitialized: true
-}));
 // Set up session middleware
 app.use(
   session({
@@ -27,8 +22,8 @@ app.use(
     resave: true,
     cookie: { maxAge: 1000 * 60 * 60 * 48 },
     saveUninitialized: true,
-    //store: MongoStore.create({ mongoUrl: process.env.DB_STRING }),
-    store: new MemoryStore({ checkPeriod: 86400000 }),
+    store: MongoStore.create({ mongoUrl: process.env.DB_STRING }),
+   // store: new MemoryStore({ checkPeriod: 86400000 }),
   })
 );
 // Set up flash middleware
