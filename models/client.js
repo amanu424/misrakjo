@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const clientSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -10,7 +11,7 @@ const clientSchema = new mongoose.Schema({
         type: String,
         enum: ['accepted', 'pending', 'rejected'],
         default: 'pending'
-    }
+    },
 });
 
 module.exports = mongoose.model('Client', clientSchema);

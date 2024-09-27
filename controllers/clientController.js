@@ -5,6 +5,7 @@ const clientController = {
     addClient: async (req, res) => {
       
         try {
+          console.log(req.body)
             const result = await cloudinary.uploader.upload(req.file.path);
             const newClient = {
                 name: req.body.name,
@@ -12,10 +13,9 @@ const clientController = {
                 phone: req.body.phone,
                 passportNumber: req.body.passportNumber,
                 photo: result.secure_url,
-                status: req.body.status
+                status: req.body.status,
             };
             const client = await ClientRepository.createClient(newClient);
-            console.log(client)
             res.json(client);
         } catch (error) {
           console.log(error)
@@ -34,9 +34,24 @@ const clientController = {
 
     updateClient: async (req, res) => {
         try {
-            const updatedClient = await ClientRepository.updateClient(req.params.id, req.body);
+          
+            const client = await ClientRepository.getClientById(req.params.id);
+            await cloudinary.uploader.destroy(client.photo);  // Assuming photo is the public_id
+           
+            const result = await cloudinary.uploader.upload(req.file.path);
+            const newClient = {
+                name: req.body.name,
+                age: req.body.age,
+                phone: req.body.phone,
+                passportNumber: req.body.passportNumber,
+                photo: result.secure_url,
+                status: req.body.status
+            };
+            const updatedClient = await ClientRepository.updateClient(req.params.id, newClient);
+            console.log(updatedClient)
             res.json(updatedClient);
         } catch (error) {
+          console.log(error)
             res.status(500).json({ message: 'Error updating client', error });
         }
     },

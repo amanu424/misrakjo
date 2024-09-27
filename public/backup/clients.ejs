@@ -96,7 +96,7 @@
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container py-3">
           <div class="logo">
- <a href="#">
+ <a href="https://www.bhp.com/">
                <img src="https://www.bhp.com/-/media/project/bhp1ip/bhp1ip-en/bhp-orange.png?iar=0&amp;hash=9467A83EBA5D4819D582B7F0A7E0239B" alt="BHP Home - Logo">
                </a>
 <a class="logo-white-url" href="https://www.bhp.com/" style="display:none;">
@@ -411,7 +411,6 @@
           <div class="collapse show" id="acceptedApplicants">
             <div class="row g-4" id="acceptedApplicantsList"></div>
           </div>
-          <div id="pagination" class="text-center my-4"></div>
         </div>
 
         <!-- Pending Applicants -->
@@ -626,47 +625,10 @@
 
 
 </div>  
-  </section>       
-  <!-- Contact Section -->
-    <section id="contact" class="py-5 bg-white">
-      <div class="container">
-        <h2 class="section-title text-center">Contact Us</h2>
-        <div class="row justify-content-center">
-          <div class="col-md-8 text-center">
-            <p class="lead mb-5">
-              We're here to help you with all your visa and travel needs. Get in
-              touch with us today!
-            </p>
-            <div class="mb-4">
-              <i class="fas fa-envelope me-2 text-primary"></i>
-              <a
-                href="mailto:bhpgroupmineralminingcompany@gmail.com"
-                class="text-decoration-none"
-                >bhpgroupmineralminingcompany@gmail.com</a
-              >
-            </div>
-            <div class="mb-4">
-              <i class="fas fa-phone me-2 text-primary"></i>
-              <a href="tel:+19024000031" class="text-decoration-none"
-                >+1 (902) 400-031</a
-              >
-            </div>
-            <div>
-              <i class="fas fa-map-marker-alt me-2 text-primary"></i>
-              <span>Toronto, ON, Canada</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-
-  </div>
+  </section>        </div>
     </div>
 </div>
         </div>
-        
     </main>
     <!-- /#content -->
     <!-- #footer -->
@@ -1098,28 +1060,82 @@
         
 
         // Applicants Section
-        
+        const applicantss = [
+          {
+            id: 1,
+            name: "John Doe",
+            age: 30,
+            phone: "+1234567890",
+            passport: "AB1234567",
+            status: "accepted",
+            image: "/img/man.jpeg?height=100&width=100"
+          },
+          {
+            id: 2,
+            name: "Jane Smith",
+            age: 28,
+            phone: "+1987654321",
+            passport: "CD7654321",
+            status: "accepted",
+            image: "/img/man2.jpeg?height=100&width=100"
+          },
+          {
+            id: 3,
+            name: "Bob Johnson",
+            age: 35,
+            phone: "+1122334455",
+            passport: "EF1122334",
+            status: "rejected",
+            image: "/img/man3.jpeg?height=100&width=100"
+          },
+          {
+            id: 4,
+            name: "Alice Brown",
+            age: 26,
+            phone: "+1555666777",
+            passport: "GH5556667",
+            status: "pending",
+            image: "/img/man2.jpeg?height=100&width=100"
+          },
+          {
+            id: 5,
+            name: "Charlie Davis",
+            age: 32,
+            phone: "+1999000111",
+            passport: "IJ9990001",
+            status: "rejected",
+            image: "/img/man3.jpeg?height=100&width=100"
+          },
+          {
+            id: 6,
+            name: "Eva Wilson",
+            age: 29,
+            phone: "+1444333222",
+            passport: "KL4443332",
+            status: "pending",
+            image: "/img/man3.jpeg?height=100&width=100"
+          }
+        ];
         let applicants = await JSON.parse('<%-JSON.stringify(clients)%>')
-        let acceptedApplicants = applicants.filter(app => {
-          app.status == "accepted"
-        })
-        let currentPage = 1;
-const applicantsPerPage = 8;
+        const acceptedApplicantsList = document.getElementById(
+          "acceptedApplicantsList"
+        );
+        const pendingApplicantsList = document.getElementById(
+          "pendingApplicantsList"
+        );
+        const rejectedApplicantsList = document.getElementById(
+          "rejectedApplicantsList"
+        );
 
-function renderApplicants() {
+       function renderApplicants() {
     acceptedApplicantsList.innerHTML = '';
     pendingApplicantsList.innerHTML = '';
     rejectedApplicantsList.innerHTML = '';
 
-    const start = (currentPage - 1) * applicantsPerPage;
-    const end = start + applicantsPerPage;
-
-    const paginatedApplicants = applicants.slice(start, end);
-
-    paginatedApplicants.forEach((applicant, index) => {
+    applicants.forEach((applicant, index) => {
         const applicantCard = `
             <div class="col-md-6 mb-3">
-                <div class="card applicant-card h-100" onclick="toggleApplicantDetails(${start + index})">
+                <div class="card applicant-card h-100" onclick="toggleApplicantDetails(${index})">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <div class="d-flex align-items-center">
@@ -1131,9 +1147,9 @@ function renderApplicants() {
                                     </p>
                                 </div>
                             </div>
-                            <i class="fas fa-chevron-down chevronMan" id="chevron${start + index}"></i>
+                            <i class="fas fa-chevron-down chevronMan" id="chevron${index}"></i>
                         </div>
-                        <div id="applicantDetails${start + index}" class="applicant-details">
+                        <div id="applicantDetails${index}" class="applicant-details">
                             <p><strong>Age:</strong> ${applicant.age}</p>
                             <p><strong>Phone:</strong> ${applicant.phone}</p>
                             <p><strong>Passport:</strong> ${applicant.passportNumber}</p>
@@ -1145,100 +1161,29 @@ function renderApplicants() {
 
         if (applicant.status === 'accepted') {
             acceptedApplicantsList.innerHTML += applicantCard;
-        } 
-    });
-    
-    applicants.forEach((applicant, index) => {
-        const applicantCardTwo = `
-            <div class="col-md-6 mb-3">
-                <div class="card applicant-card h-100" onclick="toggleApplicantDetails(${start + index})">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="d-flex align-items-center">
-                                <img src="${applicant.photo}" alt="${applicant.name}" class="rounded-circle me-3 cardImg" width="65" height="65">
-                                <div>
-                                    <h5 class="card-title mb-0">${applicant.name}</h5>
-                                    <p class="card-text text-${applicant.status === 'accepted' ? 'success' : applicant.status === 'pending' ? 'secondary' : 'danger'} mb-0">
-                                        ${applicant.status.charAt(0).toUpperCase() + applicant.status.slice(1)}
-                                    </p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-down chevronMan" id="chevron${start + index}"></i>
-                        </div>
-                        <div id="applicantDetails${start + index}" class="applicant-details">
-                            <p><strong>Age:</strong> ${applicant.age}</p>
-                            <p><strong>Phone:</strong> ${applicant.phone}</p>
-                            <p><strong>Passport:</strong> ${applicant.passportNumber}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        if (applicant.status === 'pending') {
-            pendingApplicantsList.innerHTML += applicantCardTwo;
-        } 
-        if (applicant.status === 'rejected') {
-            rejectedApplicantsList.innerHTML += applicantCardTwo;
+        } else if (applicant.status === 'pending') {
+            pendingApplicantsList.innerHTML += applicantCard;
+        } else {
+            rejectedApplicantsList.innerHTML += applicantCard;
         }
     });
 
+    populateEditApplicantSelect();
 }
-    renderPagination();
 
 window.toggleApplicantDetails = function(id) {
     const cardElement = document.querySelector(`.applicant-card:has(#applicantDetails${id})`);
     const detailsElement = document.getElementById(`applicantDetails${id}`);
     const chevronElement = document.getElementById(`chevron${id}`);
-
+    
     cardElement.classList.toggle('active');
     detailsElement.classList.toggle('show');
     chevronElement.classList.toggle('fa-chevron-up');
     chevronElement.classList.toggle('fa-chevron-down');
 }
 
-function renderPagination() {
-    const totalApplicants = applicants.length;
-    const totalPages = Math.ceil(totalApplicants / applicantsPerPage);
+  
 
-    const paginationDiv = document.getElementById('pagination');
-
-    let paginationHTML = `
-        <button class="btn btn-primary" id="prevPageBtn" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>
-        <span class="mx-2">Page ${currentPage} of ${totalPages}</span>
-        <button class="btn btn-primary" id="nextPageBtn" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>
-    `;
-
-    paginationDiv.innerHTML = paginationHTML;
-const nextPageBtn = document.getElementById("nextPageBtn")
-const prevPageBtn = document.getElementById("prevPageBtn")
-
-nextPageBtn.addEventListener("click", () => {
-  nextPage()
-  renderPagination()
-  renderApplicants()
-})
-prevPageBtn.addEventListener("click", () => {
-  prevPage()
-  renderPagination()
-})
-}
-function nextPage() {
-    const totalApplicants = applicants.length;
-    const totalPages = Math.ceil(totalApplicants / applicantsPerPage);
-
-    if (currentPage < totalPages) {
-        currentPage++;
-        renderApplicants();
-    }
-}
-
-function prevPage() {
-    if (currentPage > 1) {
-        currentPage--;
-        renderApplicants();
-    }
-}
         renderApplicants();
 
         // Add new applicant

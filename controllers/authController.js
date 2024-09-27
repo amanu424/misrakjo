@@ -24,6 +24,7 @@ const authController = {
             }
           //create session
             req.session.isAuthenticated = true
+            req.session.agent = agent.id
             req.flash('success_msg', 'You are successfully logged in');
             res.status(200).redirect('/');
         } catch (error) {

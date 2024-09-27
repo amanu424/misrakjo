@@ -9,7 +9,7 @@ const router = express.Router();
 // Protect routes with isAuthenticated
 router.get('/', clientController.getClients);
 router.post('/clients', isAuthenticated, upload.single('photo'), clientController.addClient);
-router.put('/clients/:id', isAuthenticated, clientController.updateClient);
+router.put('/clients/:id', isAuthenticated, upload.single('photo'), clientController.updateClient);
 router.delete('/clients/:id', isAuthenticated, clientController.deleteClient);
 
 module.exports = router;

@@ -7,7 +7,7 @@ class ClientRepository {
     }
 
     async getAllClients() {
-        return await Client.find();
+        return await Client.find().sort({ name: 1 });
     }
 
     async getClientById(id) {
