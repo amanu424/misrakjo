@@ -8,7 +8,7 @@ const clientRoutes = require('./routes/clientRoute');
 const authRoutes = require('./routes/authRoute');
 const session = require('express-session');
 const isAuthenticated = require('./middleware/authMiddlware.js'); // Import session middleware
-const addAgent = require('./offline/addAgent.js');
+//const addAgent = require('./offline/addAgent.js');
 const MemoryStore = require("memorystore")(session);
 const MongoStore = require('connect-mongo');
 const cors = require("cors")
@@ -49,7 +49,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', clientRoutes);
 app.use('/auth', authRoutes);
-app.use('/api/agents', addAgent);
+//app.use('/api/agents', addAgent);
 
 
 const PORT = process.env.PORT || 5000;
