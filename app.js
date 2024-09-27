@@ -24,7 +24,7 @@ app.use(
     resave: true,
     cookie: { maxAge: 1000 * 60 * 60 * 48 },
     saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: process.env.DB_STRING_LOCAL }),
+    store: MongoStore.create({ mongoUrl: process.env.DB_STRING }),
    // store: new MemoryStore({ checkPeriod: 86400000 }),
   })
 );
