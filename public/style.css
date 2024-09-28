@@ -1,4 +1,7 @@
-
+.cardImg{
+  height: 65px;
+  width: 65px;
+}
 .btn-primary {
   background-color: var(--accent-color);
   border-color: var(--accent-color);
