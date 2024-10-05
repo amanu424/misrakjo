@@ -1099,7 +1099,7 @@
 
         // Applicants Section
         
-        let applicants = await JSON.parse('<%-JSON.stringify(clients)%>')
+        let applicants = await JSON.parse(`<%-JSON.stringify(clients)%>`)
         const acceptedApplicantsList = document.getElementById(
           "acceptedApplicantsList"
         );
